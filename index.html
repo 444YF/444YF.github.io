@@ -9,6 +9,8 @@
         html, body {
             height: 100%;
             margin: 0;
+            background-color: black; /* Black background for the whole page */
+            color: white; /* Text color set to white for contrast */
         }
 
         body {
@@ -21,11 +23,12 @@
             margin-top: auto;
         }
 
-        /* Add styles for the shop section to display products side by side */
+        /* Adjust the shop section for centering and reducing space between products */
         #shop {
             display: flex;
-            justify-content: space-around;
+            justify-content: center;
             margin-top: 20px;
+            gap: 30px; /* Reduced space between products */
         }
 
         .product {
@@ -37,10 +40,33 @@
             height: 200px;
             width: auto;
         }
+
+        /* Style the navigation and header text */
+        header {
+            background-color: black;
+            color: white;
+            text-align: center;
+            padding: 20px;
+        }
+
+        header nav ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        header nav ul li {
+            display: inline;
+            margin-right: 15px;
+        }
+
+        header nav ul li a {
+            color: white;
+            text-decoration: none;
+        }
     </style>
 </head>
 <body>
-    <header style="background-color: black; color: white;">
+    <header>
         <img src="logo.jpg" alt="Logo" style="height: 150px;">
         <nav>
             <ul>
@@ -72,7 +98,7 @@
 
     <section id="about">
         <h2>About Me</h2>
-        <p>LOWELY CS MINION. CAN BARELY AFFORD GROCERIES. NEED TO SELL MY POSESSIONS TO STAY ABOVE THE BREADLINE</p>
+        <p>LOWLY CS MINION. CAN BARELY AFFORD GROCERIES. NEED TO SELL MY POSESSIONS TO STAY ABOVE THE BREADLINE</p>
     </section>
 
     <script src="script.js"></script>
