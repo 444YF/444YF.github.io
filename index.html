@@ -77,11 +77,10 @@
                 const appKey = 'f9b09f5b7de24c56e372c221d7870db6';
                 const credentials = btoa(appId + ':' + appKey);
 
-        
                 const proxyUrl = 'https://cors-anywhere.herokuapp.com/';
                 const apiUrl = 'https://api.acquired.com/v1/payment-links';
 
-                const response = await fetch(proxyUrl + apiUrl,
+                const response = await fetch(proxyUrl + apiUrl, {
                     method: 'POST',
                     headers: {
                         'Authorization': 'Acquired ' + credentials,
