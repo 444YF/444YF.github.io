@@ -71,25 +71,58 @@
     </section>
 
     <script>
-        async function createPaymentLink(amount, currency) {
+        async function getBearerToken() {
             try {
                 const appId = '21697534';
                 const appKey = 'f9b09f5b7de24c56e372c221d7870db6';
+
                 const credentials = btoa(appId + ':' + appKey);
+                const loginUrl = 'https://test-api.acquired.com/v1/login';
 
-                const proxyUrl = 'https://cors-anywhere.herokuapp.com/';
-                const apiUrl = 'https://test-api.acquired.com/v1/payment-links';
-
-                const response = await fetch(proxyUrl + apiUrl, {
+                const response = await fetch(loginUrl, {
                     method: 'POST',
                     headers: {
-                        'Authorization': 'Acquired ' + credentials,
+                        'Authorization': 'Basic ' + credentials,
                         'Content-Type': 'application/json',
+                        'Accept': 'application/json'
+                    }
+                });
+
+                const data = await response.json();
+
+                if (response.ok && data.access_token) {
+                    return data.access_token;
+                } else {
+                    console.error('Login failed:', data);
+                    alert('Authentication failed. Please check API credentials.');
+                    return null;
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('There was a problem with authentication.');
+                return null;
+            }
+        }
+
+        async function createPaymentLink(amount, currency) {
+            try {
+                const token = await getBearerToken();
+
+                if (!token) return; //
+
+                const apiUrl = 'https://test-api.acquired.com/v1/payment-links';
+
+                const response = await fetch(apiUrl, {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': 'Bearer ' + token,
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json'
                     },
                     body: JSON.stringify({
                         amount: amount,
                         currency: currency,
-                        description: `Product purchase - ${currency === 'USD' ? '$' : ''}${(amount / 100).toFixed(2)}`
+                        description: `Product purchase - $${(amount / 100).toFixed(2)}`
                     })
                 });
 
@@ -99,11 +132,11 @@
                     window.location.href = data.url;
                 } else {
                     console.error('Failed to create payment link:', data);
-                    alert('Error creating payment link. Please try again.');
+                    alert('Error creating payment link.');
                 }
             } catch (error) {
                 console.error('Error:', error);
-                alert('There was a problem. Please try again later.');
+                alert('There was a problem processing your request.');
             }
         }
     </script>
